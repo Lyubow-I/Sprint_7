@@ -9,23 +9,24 @@ import static org.apache.http.HttpStatus.*;
 
 @RunWith(Parameterized.class)
 public class OrderCreatTest {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String metroStation;
-    private String phone;
-    private String deliveryDate;
-    private String comment;
-    private String[] color;
-    private int rentTime;
+    private final String firstName;
+    private final String lastName;
+    private final String address;
+    private final String metroStation;
+    private final String phone;
+    private final String deliveryDate;
+    private final String comment;
+    private final String[] color;
+    private final int rentTime;
     String orderId;
+
     @After
     public void tearDown() {
         ClientOrder.deleteOrder(orderId);
     }
 
     public OrderCreatTest(String firstName, String lastName, String address, String metroStation,
-                           String phone, int rentTime, String deliveryDate, String comment, String[] color) {
+                          String phone, int rentTime, String deliveryDate, String comment, String[] color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -40,10 +41,10 @@ public class OrderCreatTest {
     @Parameterized.Parameters
     public static Object[][] getOrderData() {
         return new Object[][]{
-                { "Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[] { "BLACK" } },
-                { "Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[] { "GRAY", "BLACK" } },
-                { "Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[] { } },
-                { "Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[] { "GRAY" } },
+                {"Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[]{"BLACK"}},
+                {"Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[]{"GRAY", "BLACK"}},
+                {"Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[]{}},
+                {"Света", "Светова", "Светлая, 1", "5", "+7 777 777 77 77", 5, "01.11.2024", "Звоните", new String[]{"GRAY"}},
         };
     }
 
@@ -57,5 +58,8 @@ public class OrderCreatTest {
         orderId = ClientOrder.getOrderId(createResponse);
         Response deleteResponse = ClientOrder.deleteOrder(orderId);
         ClientOrder.comparingSuccessfulOrderCancel(deleteResponse, SC_OK);
-            }
+    }
+
 }
+
+

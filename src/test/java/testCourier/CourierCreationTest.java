@@ -21,6 +21,7 @@ public class CourierCreationTest {
 
     private Gson gson;
     private int courierId = -1;
+
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
@@ -33,11 +34,13 @@ public class CourierCreationTest {
             deleteCourier(courierId);
         }
     }
+
     private String formatResponseBody(String responseBody) {
 
         JsonElement jsonElement = JsonParser.parseString(responseBody);
         return gson.toJson(jsonElement);
     }
+
     private void checkStatusCode(Response response, int expectedStatusCode) {
         assertThat(response.getStatusCode(), is(expectedStatusCode));
     }
@@ -49,6 +52,7 @@ public class CourierCreationTest {
     private String createRequestBody(String login, String password, String firstName) {
         return "{ \"login\": \"" + login + "\", \"password\": \"" + password + "\", \"firstName\": \"" + firstName + "\" }";
     }
+
     private int getCourierId(String login, String password) {
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -61,6 +65,7 @@ public class CourierCreationTest {
             return -1;
         }
     }
+
     private void deleteCourier(int courierId) {
         RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -70,18 +75,20 @@ public class CourierCreationTest {
                 .statusCode(200); // Ожидаем успешное удаление курьера
         System.out.println("Курьер с ID " + courierId + " был удален.");
     }
+
     private void printResponse(Response response) {
         String responseBody = response.getBody().asString();
         String formattedJson = formatResponseBody(responseBody);
         System.out.println("Код ответа: " + response.getStatusCode());
         System.out.println("Тело ответа: " + formattedJson);
     }
+
     @Test
     @Story("Курьера можно создать")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verify that creating a new courier is possible and returns the correct response")
     public void testCreateCourierIsPossible() {
-        String login = "galy";
+        String login = "gali";
         String password = "1234";
         String body = createRequestBody(login, password, "ytut");
         Response response = RestAssured.given()
@@ -95,12 +102,13 @@ public class CourierCreationTest {
         courierId = getCourierId(login, password);
         assertThat(courierId, is(not(-1)));
     }
+
     @Test
     @Story("Нельзя создать двух одинаковых курьеров")
     @Severity(SeverityLevel.NORMAL)
     @Description("Verify that creating a courier with the same login returns an error")
     public void testErrorCreateTheSameCourier() {
-        String login = "galy"; // Логин
+        String login = "gali"; // Логин
         String password = "1234"; // Пароль
         String body = createRequestBody(login, password, "ytut");
         Response firstResponse = RestAssured.given()
@@ -146,7 +154,7 @@ public class CourierCreationTest {
     @Severity(SeverityLevel.MINOR)
     @Description("Запрос создание курьера, возвращает правильный код ответа")
     public void testCreateCourier() {
-        String login = "galy"; // Логин
+        String login = "galu"; // Логин
         String password = "1234"; // Пароль
         String body = createRequestBody(login, password, "ytut");
         Response response = RestAssured.given()
@@ -235,3 +243,5 @@ public class CourierCreationTest {
         checkErrorMessage(response, expectedMessage);
     }
 }
+
+

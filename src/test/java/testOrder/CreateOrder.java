@@ -1,4 +1,7 @@
 package testOrder;
+
+import io.restassured.response.Response;
+
 public class CreateOrder {
     private String firstName;
     private String lastName;
@@ -11,7 +14,7 @@ public class CreateOrder {
     private int rentTime;
 
     public CreateOrder(String firstName, String lastName, String address, String metroStation,
-                       String phone, String deliveryDate, String comment, String[] color, int rentTime){
+                       String phone, String deliveryDate, String comment, String[] color, int rentTime) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -95,4 +98,5 @@ public class CreateOrder {
         this.rentTime = rentTime;
     }
 }
+
 

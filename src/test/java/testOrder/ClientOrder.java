@@ -5,6 +5,8 @@ import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
 import io.qameta.allure.internal.shadowed.jackson.databind.SerializationFeature;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.junit.Assert;
+
 import java.util.List;
 import java.util.Map;
 import static io.restassured.RestAssured.given;
@@ -34,6 +36,7 @@ public class ClientOrder {
         System.out.println("Заказ создан. Код ответа: " + response.getStatusCode() + ", Тело ответа: " + response.asString() + ", номер заказа: " + trackNumber);
         return response;
     }
+
     @Step("Закрытие ордера по ID")
     public static Response deleteOrder(String id) {
         Response response = given()
@@ -46,6 +49,7 @@ public class ClientOrder {
         System.out.println("Заказ удалён. Код ответа: " + response.getStatusCode() + ", Тело ответа: " + response.asString());
         return response;
     }
+
     @Step("Получение Id заказа по трек-номеру заказа")
     public static String getOrderId(Response response) {
         String trackNumber = response.then().extract().body().asString();
@@ -64,6 +68,7 @@ public class ClientOrder {
         }
         return orderId;
     }
+
     @Step("Проверка успешного завершения заказа")
     public static void comparingSuccessfulOrderCancel(Response response, int expectedResponseCode) {
         if (response.getStatusCode() != expectedResponseCode) {
@@ -71,10 +76,12 @@ public class ClientOrder {
         }
         response.then().assertThat().body("ok", equalTo(true)).and().statusCode(expectedResponseCode);
     }
+
     @Step("Сравнение ожидаемого кода ответа с фактическим")
     public static void comparingSuccessfulOrderSet(Response response, int responseCode) {
         response.then().assertThat().body("track", not(0)).and().statusCode(responseCode);
     }
+
     @Step("Получить список заказов")
     public static Response getAllOrders() {
         Response response = given()
@@ -100,7 +107,11 @@ public class ClientOrder {
         }
         return response;
     }
+
 }
+
+
+
 
 
 
